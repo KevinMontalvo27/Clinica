@@ -1,7 +1,13 @@
+import { useEffect } from 'react';
+import { useAuthStore } from './store/authStore';
+import AppRoutes from './routes/AppRoutes';
+
 export default function App() {
-  return (
-    <div className="p-8">
-      <button className="btn btn-primary">Hola desde DaisyUI 🌸</button>
-    </div>
-  );
+  const checkAuth = useAuthStore((s) => s.checkAuth);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  return <AppRoutes />;
 }

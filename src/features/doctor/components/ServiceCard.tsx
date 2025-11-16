@@ -27,6 +27,10 @@ export default function ServiceCard({
     onToggleActive,
     className = '',
 }: ServiceCardProps) {
+
+    const priceNumber = typeof price === 'number' ? price : parseFloat(price as any) || 0;
+
+
     return (
         <Card
         className={`hover:shadow-lg transition-all duration-200 ${!isActive ? 'opacity-60' : ''} ${className}`}
@@ -51,7 +55,7 @@ export default function ServiceCard({
             <div className="grid grid-cols-3 gap-3">
             <div className="bg-primary/10 rounded-lg p-3 text-center">
                 <p className="text-xs text-base-content/60 mb-1">Precio</p>
-                <p className="font-bold text-lg text-primary">${price.toFixed(2)}</p>
+                <p className="font-bold text-lg text-primary">${priceNumber.toFixed(2)}</p>
             </div>
             <div className="bg-secondary/10 rounded-lg p-3 text-center">
                 <p className="text-xs text-base-content/60 mb-1">Duración</p>

@@ -16,7 +16,8 @@ import {
   MyAppointments,
   MyPatients,
   MyServices,
-  DoctorProfile
+  DoctorProfile,
+  RegisterConsultation,
 } from '../features/doctor/pages';
 
 
@@ -73,6 +74,7 @@ export default function AppRoutes() {
                   <Route path="patients" element={<MyPatients />} />
                   <Route path="services" element={<MyServices />} />
                   <Route path="profile" element={<DoctorProfile />} />
+                  <Route path="consultation/register" element={<RegisterConsultation />} />
                   {/* Agregar más rutas de doctor aquí */}
                 </Routes>
               </RoleBasedRoute>

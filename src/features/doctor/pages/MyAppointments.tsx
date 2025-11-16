@@ -8,11 +8,13 @@ import { appointmentsService } from '../../../api/services/appointments.service'
 import type { Appointment, AppointmentStatus } from '../../../api/services/appointments.service';
 import { useAuthStore } from '../../../store/authStore';
 import { doctorsService } from '../../../api/services/doctors.service';
+import { useNavigate } from 'react-router-dom';
 
 type ViewMode = 'list' | 'calendar';
 type FilterStatus = 'ALL' | AppointmentStatus;
 
 export default function MyAppointments() {
+  const navigate = useNavigate();
   const { user } = useAuthStore();
   const [doctorId, setDoctorId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -94,7 +96,11 @@ export default function MyAppointments() {
     setFilteredAppointments(filtered);
   };
 
-  const handleConfirm = async (id: number) => {
+  const handleStartConsultation = (appointmentId: string) => {
+    navigate(`/doctor/consultation/register?appointmentId=${appointmentId}`);
+  };
+
+  const handleConfirm = async (id: string) => {
     try {
       await appointmentsService.confirm(String(id));
       if (doctorId) await loadAppointments(doctorId);
@@ -103,7 +109,7 @@ export default function MyAppointments() {
     }
   };
 
-  const handleCancel = async (id: number) => {
+  const handleCancel = async (id: string) => {
     try {
       await appointmentsService.cancel(String(id), { reason: 'Cancelada por el doctor' });
       if (doctorId) await loadAppointments(doctorId);
@@ -112,12 +118,12 @@ export default function MyAppointments() {
     }
   };
 
-  const handleReschedule = async (id: number) => {
+  const handleReschedule = async (id: string) => {
     console.log('Reprogramar cita:', id);
     // TODO: Abrir modal de reprogramación
   };
 
-  const handleViewDetails = (id: number) => {
+  const handleViewDetails = (id: string) => {
     console.log('Ver detalles:', id);
     // TODO: Navegar a detalles de la cita
   };
@@ -207,7 +213,7 @@ export default function MyAppointments() {
         {viewMode === 'calendar' ? (
           <AppointmentCalendar
             appointments={calendarAppointments}
-            onAppointmentClick={(id) => handleViewDetails(Number(id))}
+            onAppointmentClick={(id) => handleViewDetails(id)}
           />
         ) : (
           <>
@@ -277,7 +283,7 @@ export default function MyAppointments() {
                 {filteredAppointments.map((appointment) => (
                   <AppointmentCard
                     key={appointment.id}
-                    id={Number(appointment.id)}
+                    id={appointment.id}
                     patientName={`${appointment.patient?.user.firstName} ${appointment.patient?.user.lastName}`}
                     date={appointment.appointmentDate}
                     time={appointment.appointmentTime.slice(0, 5)}
@@ -288,6 +294,7 @@ export default function MyAppointments() {
                     onCancel={handleCancel}
                     onReschedule={handleReschedule}
                     onViewDetails={handleViewDetails}
+                    onStartConsultation={handleStartConsultation}
                   />
                 ))}
               </div>

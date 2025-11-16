@@ -1,16 +1,16 @@
 import { Badge, Button, Card } from '../../../components/common';
 
 interface ServiceCardProps {
-    id: number;
+    id: string;
     name: string;
     description?: string;
     price: number;
     duration: number;
     isActive: boolean;
     totalAppointments?: number;
-    onEdit?: (id: number) => void;
-    onDelete?: (id: number) => void;
-    onToggleActive?: (id: number, active: boolean) => void;
+    onEdit?: (id: string) => void;
+    onDelete?: (id: string) => void;
+    onToggleActive?: (id: string, active: boolean) => void;
     className?: string;
 }
 

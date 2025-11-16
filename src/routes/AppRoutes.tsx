@@ -9,8 +9,16 @@ import LoginPage from '../features/auth/pages/LoginPage';
 
 // Dashboards
 import AdminDashboard from '../features/admin/pages/AdminDashboard';
-import DoctorDashboard from '../features/doctor/pages/DoctorDashboard';
 import PatientDashboard from '../features/patient/pages/PatientDashboard';
+import {
+  DoctorDashboard,
+  MySchedule,
+  MyAppointments,
+  MyPatients,
+  MyServices,
+  DoctorProfile
+} from '../features/doctor/pages';
+
 
 export default function AppRoutes() {
   const { isAuthenticated, user } = useAuthStore();
@@ -60,6 +68,11 @@ export default function AppRoutes() {
               <RoleBasedRoute allowedRoles={['DOCTOR']}>
                 <Routes>
                   <Route path="dashboard" element={<DoctorDashboard />} />
+                  <Route path="schedule" element={<MySchedule />} />
+                  <Route path="appointments" element={<MyAppointments />} />
+                  <Route path="patients" element={<MyPatients />} />
+                  <Route path="services" element={<MyServices />} />
+                  <Route path="profile" element={<DoctorProfile />} />
                   {/* Agregar más rutas de doctor aquí */}
                 </Routes>
               </RoleBasedRoute>

@@ -1,4 +1,13 @@
+// src/features/doctor/components/AppointmentCard.tsx
 import { Badge, Button, Card } from '../../../components/common';
+
+export type AppointmentStatus = 
+  | 'SCHEDULED' 
+  | 'CONFIRMED' 
+  | 'CANCELLED' 
+  | 'COMPLETED' 
+  | 'NO_SHOW' 
+  | 'RESCHEDULED';
 
 interface AppointmentCardProps {
     id: number;
@@ -7,7 +16,7 @@ interface AppointmentCardProps {
     date: string;
     time: string;
     duration: number;
-    status: 'SCHEDULED' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW';
+    status: AppointmentStatus;
     reason?: string;
     onConfirm?: (id: number) => void;
     onCancel?: (id: number) => void;
@@ -16,11 +25,13 @@ interface AppointmentCardProps {
     className?: string;
 }
 
-const statusConfig: Record<string, { badge: string; color: string; text: string }> = {
+const statusConfig: Record<AppointmentStatus, { badge: string; color: string; text: string }> = {
     SCHEDULED: { badge: 'badge-info', color: 'bg-blue-50', text: 'Programada' },
+    CONFIRMED: { badge: 'badge-success', color: 'bg-green-50', text: 'Confirmada' },
     COMPLETED: { badge: 'badge-success', color: 'bg-green-50', text: 'Completada' },
     CANCELLED: { badge: 'badge-error', color: 'bg-red-50', text: 'Cancelada' },
     NO_SHOW: { badge: 'badge-warning', color: 'bg-yellow-50', text: 'No presentada' },
+    RESCHEDULED: { badge: 'badge-warning', color: 'bg-orange-50', text: 'Reagendada' },
 };
 
 export default function AppointmentCard({
@@ -65,7 +76,15 @@ export default function AppointmentCard({
                 <p className="text-xs text-base-content/60">{date}</p>
                 </div>
             </div>
-            <Badge variant={statusConfig[status].badge === 'badge-success' ? 'success' : 'info'}>
+            <Badge variant={
+                status === 'COMPLETED' || status === 'CONFIRMED' 
+                    ? 'success' 
+                    : status === 'CANCELLED' || status === 'NO_SHOW'
+                    ? 'error'
+                    : status === 'RESCHEDULED'
+                    ? 'warning'
+                    : 'info'
+            }>
                 {config.text}
             </Badge>
             </div>
@@ -92,16 +111,18 @@ export default function AppointmentCard({
 
             {/* Acciones */}
             <div className="flex gap-2 flex-wrap">
-            {status === 'SCHEDULED' && (
+            {(status === 'SCHEDULED' || status === 'CONFIRMED') && (
                 <>
-                <Button
-                    size="sm"
-                    variant="success"
-                    onClick={() => onConfirm?.(id)}
-                    className="flex-1 min-w-[80px]"
-                >
-                    Confirmar
-                </Button>
+                {status === 'SCHEDULED' && (
+                    <Button
+                        size="sm"
+                        variant="success"
+                        onClick={() => onConfirm?.(id)}
+                        className="flex-1 min-w-[80px]"
+                    >
+                        Confirmar
+                    </Button>
+                )}
                 <Button
                     size="sm"
                     variant="warning"
@@ -120,7 +141,7 @@ export default function AppointmentCard({
                 </Button>
                 </>
             )}
-            {status === 'COMPLETED' && (
+            {(status === 'COMPLETED' || status === 'CANCELLED' || status === 'NO_SHOW' || status === 'RESCHEDULED') && (
                 <Button
                 size="sm"
                 variant="ghost"

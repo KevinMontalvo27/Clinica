@@ -9,7 +9,11 @@ import LoginPage from '../features/auth/pages/LoginPage';
 
 // Dashboards
 import AdminDashboard from '../features/admin/pages/AdminDashboard';
-import PatientDashboard from '../features/patient/pages/PatientDashboard';
+import {
+  PatientDashboard,
+  SearchDoctors,
+  PatientDoctorProfile,
+} from '../features/patient/pages/';
 import {
   DoctorDashboard,
   MySchedule,
@@ -90,7 +94,8 @@ export default function AppRoutes() {
               <RoleBasedRoute allowedRoles={['PATIENT']}>
                 <Routes>
                   <Route path="dashboard" element={<PatientDashboard />} />
-                  {/* Agregar más rutas de paciente aquí */}
+                  <Route path="/search-doctors" element={<SearchDoctors />} />
+                  <Route path="/doctor/:id" element={<PatientDoctorProfile />} />
                 </Routes>
               </RoleBasedRoute>
             </PrivateRoute>

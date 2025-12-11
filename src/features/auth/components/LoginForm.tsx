@@ -145,6 +145,7 @@ export default function LoginForm() {
                 size="lg"
                 fullWidth
                 disabled={isSubmitting}
+                className='bg-purple-500'
                 >
                 {isSubmitting ? (
                     <div className="flex items-center justify-center gap-2">

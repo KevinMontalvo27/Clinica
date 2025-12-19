@@ -1,4 +1,3 @@
-// src/features/doctor/pages/DoctorProfile.tsx
 import { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string, number as yupNumber } from 'yup';

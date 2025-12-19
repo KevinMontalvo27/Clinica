@@ -53,12 +53,13 @@ export interface Appointment {
 export interface CreateAppointmentDto {
   patientId: string;
   doctorId: string;
-  serviceId: string;
+  serviceId?: string; // Opcional
   appointmentDate: string;
-  appointmentTime: string;
+  appointmentTime: string; // HH:MM format
   duration?: number;
+  reasonForVisit?: string; // Cambiar de 'reason' a 'reasonForVisit'
   notes?: string;
-  reason?: string;
+  price?: number;
 }
 
 export interface UpdateAppointmentDto {

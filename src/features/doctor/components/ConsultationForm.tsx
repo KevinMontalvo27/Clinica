@@ -1,4 +1,3 @@
-// src/features/doctor/components/ConsultationForm.tsx
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import { FileText, Activity, Pill, ClipboardList, AlertCircle } from 'lucide-react';

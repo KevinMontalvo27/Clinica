@@ -1,4 +1,3 @@
-// src/features/doctor/pages/RegisterConsultation.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckCircle, ArrowLeft, ArrowRight, Activity, Pill, ClipboardList, FileText } from 'lucide-react';

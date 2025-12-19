@@ -1,7 +1,9 @@
 import { Badge, Button, Card } from '../../../components/common';
+import { FileText } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface PatientCardProps {
-    id: number;
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
@@ -10,10 +12,10 @@ interface PatientCardProps {
     lastVisit?: string;
     totalVisits?: number;
     allergies?: string[];
-    onSelect?: (id: number) => void;
-    onViewDetails?: (id: number) => void;
-    onEdit?: (id: number) => void;
-    onDelete?: (id: number) => void;
+    onSelect?: (id: string) => void;
+    onViewDetails?: (id: string) => void;
+    onEdit?: (id: string) => void;
+    onDelete?: (id: string) => void;
     className?: string;
 }
 
@@ -35,6 +37,7 @@ export default function PatientCard({
 }: PatientCardProps) {
     const fullName = `${firstName} ${lastName}`;
     const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
+    const navigate = useNavigate();
 
     return (
         <div
@@ -125,6 +128,19 @@ export default function PatientCard({
                 >
                 Editar
                 </Button>
+                <Button
+                    size="sm"
+                    variant="outline"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        console.log('Patient ID before navigate:', id, typeof id); 
+                        navigate(`/doctor/patients/${id}/medical-history`);
+                    }}
+                    className="gap-2"
+                    >
+                    <FileText className="w-4 h-4" />
+                    Historial Médico
+                </Button>
                 {onDelete && (
                 <Button
                     size="sm"
@@ -137,6 +153,8 @@ export default function PatientCard({
                 >
                     Eliminar
                 </Button>
+                
+                
                 )}
             </div>
             </div>

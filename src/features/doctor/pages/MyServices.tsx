@@ -1,4 +1,3 @@
-// src/features/doctor/pages/MyServices.tsx
 import { useState, useEffect } from 'react';
 import { Plus, Search } from 'lucide-react';
 import DashboardLayout from '../../../components/layouts/DashboardLayout';
@@ -139,8 +138,8 @@ export default function MyServices() {
   const activeServices = services.filter(s => s.isActive).length;
   const totalRevenue = services
     .filter(s => s.isActive)
-    .reduce((sum, s) => sum + s.price, 0);
-
+    .reduce((sum, s) => sum + Number(s.price), 0);
+  
   if (isLoading) {
     return (
       <DashboardLayout>
@@ -150,6 +149,8 @@ export default function MyServices() {
       </DashboardLayout>
     );
   }
+
+  
 
   return (
     <DashboardLayout>

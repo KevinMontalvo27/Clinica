@@ -1,4 +1,3 @@
-// src/features/patient/pages/PatientDashboard.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Calendar, Stethoscope, FileText, User, Info, CheckCircle, HelpCircle, Phone } from 'lucide-react';

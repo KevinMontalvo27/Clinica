@@ -1,4 +1,3 @@
-// src/features/doctor/pages/MyAppointments.tsx
 import { useState, useEffect } from 'react';
 import { Calendar, Search } from 'lucide-react';
 import DashboardLayout from '../../../components/layouts/DashboardLayout';

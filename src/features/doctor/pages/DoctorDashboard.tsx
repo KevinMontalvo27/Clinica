@@ -1,4 +1,3 @@
-// src/features/doctor/pages/DoctorDashboard.tsx
 import { useState, useEffect } from 'react';
 import { Calendar, Users, DollarSign, Activity, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -86,12 +85,12 @@ export default function DoctorDashboard() {
   };
 
   const handleStartConsultation = (id: string) => {
-    // TODO: Implementar inicio de consulta
+    
     console.log('Iniciar consulta:', id);
   };
 
   const handleViewDetails = (id: string) => {
-    // TODO: Navegar a detalles de la cita
+    
     console.log('Ver detalles:', id);
   };
 

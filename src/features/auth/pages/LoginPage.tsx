@@ -1,4 +1,3 @@
-// src/features/auth/pages/LoginPage.tsx
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, Stethoscope, Calendar, Users } from 'lucide-react';

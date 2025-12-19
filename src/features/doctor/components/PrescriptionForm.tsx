@@ -1,4 +1,3 @@
-// src/features/doctor/components/PrescriptionForm.tsx
 import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik';
 import { object, string, array } from 'yup';
 import { Pill, Plus, Trash2, Clock, FileText, AlertCircle } from 'lucide-react';

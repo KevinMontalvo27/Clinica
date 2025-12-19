@@ -15,6 +15,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     navigate('/login');
   };
 
+    const handleDashboard = () => {
+    navigate('/doctor/dashboard');
+  };
+
   const userRole = typeof user?.role === 'string' 
     ? user.role 
     : user?.role?.name || '';
@@ -24,9 +28,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Navbar */}
       <div className="navbar bg-base-100 shadow-lg">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">
+          <button 
+            onClick={handleDashboard}
+            className="btn btn-ghost text-xl"
+          >
             Dashboard {userRole}
-          </a>
+          </button>
         </div>
         <div className="flex-none gap-2">
           {/* User info */}

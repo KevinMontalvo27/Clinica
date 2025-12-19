@@ -1,5 +1,5 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { object, number, string } from 'yup';
+import { object, number, string, boolean } from 'yup';
 import { Clock, Calendar } from 'lucide-react';
 import { Button, Alert } from '../../../components/common';
 
@@ -34,7 +34,7 @@ const scheduleSchema = object({
       if (!startTime || !value) return true;
       return value > startTime;
     }),
-  isActive: number(),
+  isActive: boolean(),
 });
 
 const daysOfWeek = [
@@ -79,20 +79,27 @@ export default function ScheduleForm({
                   Día de la semana
                 </span>
               </label>
-              <Field
-                as="select"
-                name="dayOfWeek"
-                className={`select select-bordered w-full ${
-                  errors.dayOfWeek && touched.dayOfWeek ? 'select-error' : ''
-                }`}
-              >
-                <option value="">Selecciona un día</option>
-                {daysOfWeek.map((day) => (
-                  <option key={day.value} value={day.value}>
-                    {day.label}
-                  </option>
-                ))}
-              </Field>
+              <Field name="dayOfWeek">
+  {({ field, form }: any) => (
+    <select
+      {...field}
+      id="dayOfWeek"
+      className={`select select-bordered w-full ${
+        errors.dayOfWeek && touched.dayOfWeek ? 'select-error' : ''
+      }`}
+      onChange={(e) =>
+        form.setFieldValue('dayOfWeek', Number(e.target.value))
+      }
+    >
+      <option value="">Selecciona un día</option>
+      {daysOfWeek.map((day) => (
+        <option key={day.value} value={day.value}>
+          {day.label}
+        </option>
+      ))}
+    </select>
+  )}
+</Field>
               <ErrorMessage name="dayOfWeek">
                 {(msg) => (
                   <label className="label">

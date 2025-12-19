@@ -1,4 +1,3 @@
-// src/features/patient/components/AppointmentCard.tsx
 import { Badge, Button } from '../../../components/common';
 import { Calendar, Clock, User, Stethoscope, FileText, XCircle, RotateCcw } from 'lucide-react';
 import { format } from 'date-fns';

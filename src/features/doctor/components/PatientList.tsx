@@ -4,7 +4,7 @@ import PatientCard from './PatientCard';
 import { EmptyState, Spinner } from '../../../components/common';
 
 interface Patient {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -18,10 +18,10 @@ interface Patient {
 interface PatientListProps {
   patients: Patient[];
   isLoading?: boolean;
-  onPatientSelect?: (id: number) => void;
-  onViewDetails?: (id: number) => void;
-  onEdit?: (id: number) => void;
-  onDelete?: (id: number) => void;
+  onPatientSelect?: (id: string) => void;
+  onViewDetails?: (id: string) => void;
+  onEdit?: (id: string) => void;
+  onDelete?: (id: string) => void;
   className?: string;
 }
 

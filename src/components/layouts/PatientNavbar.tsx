@@ -1,4 +1,3 @@
-// src/components/layouts/PatientNavbar.tsx
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
@@ -33,7 +32,7 @@ export default function PatientNavbar() {
     },
     {
       label: 'Buscar Doctores',
-      path: '/patient/doctors',
+      path: '/patient/search-doctors',
       icon: Search,
     },
     {

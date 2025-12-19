@@ -63,20 +63,31 @@ export default function MySchedule() {
   };
 
   const handleCreateSchedule = async (values: any) => {
-    if (!doctorId) return;
+  if (!doctorId) return;
 
-    try {
-      await schedulesService.create({
-        doctorId,
-        ...values,
-      });
-      await loadSchedules(doctorId);
-      setShowScheduleModal(false);
-    } catch (err: any) {
-      console.error('Error creando horario:', err);
-      throw err;
-    }
-  };
+  try {
+    // Función helper para asegurar formato HH:MM:SS
+    const formatTime = (time: string): string => {
+      return time.length === 5 ? `${time}:00` : time;
+    };
+
+    await schedulesService.create({
+      doctorId,
+      dayOfWeek: values.dayOfWeek,
+      startTime: formatTime(values.startTime),
+      endTime: formatTime(values.endTime),
+      isActive: values.isActive,
+    });
+    
+    await loadSchedules(doctorId);
+    setShowScheduleModal(false);
+  } catch (err: any) {
+    console.error('Error creando horario:', err);
+    // Mostrar error más específico al usuario
+    setError(err.response?.data?.message || 'Error al crear el horario');
+    throw err;
+  }
+};
 
   const handleCreateException = async (values: any) => {
     if (!doctorId) return;

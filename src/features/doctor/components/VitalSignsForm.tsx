@@ -1,4 +1,3 @@
-// src/features/doctor/components/VitalSignsForm.tsx
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, number as yupNumber } from 'yup';
 import { Activity, Heart, Thermometer, Weight, Ruler, AlertCircle } from 'lucide-react';

@@ -1,4 +1,3 @@
-// src/features/doctor/pages/MyPatients.tsx
 import { useState, useEffect } from 'react';
 import { UserPlus, FileText, Activity } from 'lucide-react';
 import DashboardLayout from '../../../components/layouts/DashboardLayout';
@@ -35,7 +34,7 @@ export default function MyPatients() {
     }
   };
 
-  const handlePatientSelect = (id: number) => {
+  const handlePatientSelect = (id: string) => {
     const patient = patients.find(p => p.id === String(id));
     if (patient) {
       setSelectedPatient(patient);
@@ -43,16 +42,16 @@ export default function MyPatients() {
     }
   };
 
-  const handleViewDetails = (id: number) => {
+  const handleViewDetails = (id: string) => {
     handlePatientSelect(id);
   };
 
-  const handleEdit = (id: number) => {
+  const handleEdit = (id: string) => {
     console.log('Editar paciente:', id);
     // TODO: Implementar edición
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     setDeletePatientId(String(id));
   };
 
@@ -73,7 +72,7 @@ export default function MyPatients() {
 
   // Transformar datos para PatientList
   const transformedPatients = patients.map(p => ({
-    id: Number(p.id),
+    id: p.id,
     firstName: p.user.firstName,
     lastName: p.user.lastName,
     email: p.user.email,
@@ -266,7 +265,7 @@ export default function MyPatients() {
                   variant="primary"
                   onClick={() => {
                     setShowDetailsModal(false);
-                    handleEdit(Number(selectedPatient.id));
+                    handleEdit((selectedPatient.id));
                   }}
                 >
                   Editar Información

@@ -14,4 +14,7 @@ export { default as TimeSlotPicker } from './TimeSlotPicker';
 export { default as UpcomingAppointments } from './UpcomingAppointments';
 export { default as VitalSignsDisplay } from './VitalSignsDisplay';
 export { default as DoctorSearch } from './DoctorSearch';
-
+export { default as MedicalHistoryList } from './MedicalHistoryList';
+export { default as MedicalHistoryGenerator } from './MedicalHistoryGenerator';
+export { default as MedicalHistoryViewer } from './MedicalHistoryViewer';
+export { default as PdfDownloadButton } from './PdfDownloadButton';

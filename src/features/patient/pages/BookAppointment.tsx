@@ -1,4 +1,3 @@
-// src/features/patient/pages/BookAppointment.tsx
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
@@ -22,7 +21,7 @@ import {
 } from '../components';
 import { doctorsService, type Doctor } from '../../../api/services/doctors.service';
 import { appointmentsService } from '../../../api/services/appointments.service';
-import { schedulesService } from '../../../api/services/schedules.service';
+import { availabilityService } from '../../../api/services/availability.service';
 import { medicalServicesService } from '../../../api/services';
 import { useAuth } from '../../../hooks/useAuth';
 import * as Yup from 'yup';
@@ -185,31 +184,37 @@ export default function BookAppointment() {
   };
 
   const handleDateSelect = async (date: Date) => {
-    setSelectedDate(date);
-    
-    // Cargar horarios disponibles para esta fecha y doctor
-    if (selectedDoctor) {
-      try {
-        setIsLoadingSlots(true);
-        setError(null);
+  setSelectedDate(date);
+  
+  // Cargar horarios disponibles para esta fecha y doctor
+  if (selectedDoctor) {
+    try {
+      setIsLoadingSlots(true);
+      setError(null);
 
-        const dateString = date.toISOString().split('T')[0];
-        const slots = await schedulesService.getAvailableSlots(
-          selectedDoctor.id,
-          dateString
-        );
+      const dateString = date.toISOString().split('T')[0];
+      const duration = selectedService?.duration || 30;
+      
+      const response = await availabilityService.getAvailableSlots(
+        selectedDoctor.id,
+        dateString,
+        duration
+      );
 
-        setTimeSlots(slots);
-        setCurrentStep('select-time');
-      } catch (err: any) {
-        console.error('Error loading time slots:', err);
-        setError(err.message || 'Error al cargar horarios disponibles');
-        setTimeSlots([]);
-      } finally {
-        setIsLoadingSlots(false);
-      }
+      // Extraer los slots del objeto de respuesta
+      const slotsArray = Array.isArray(response) ? response : (response.slots || []);
+      
+      setTimeSlots(slotsArray);
+      setCurrentStep('select-time');
+    } catch (err: any) {
+      console.error('Error loading time slots:', err);
+      setError(err.message || 'Error al cargar horarios disponibles');
+      setTimeSlots([]);
+    } finally {
+      setIsLoadingSlots(false);
     }
-  };
+  }
+};
 
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time);
@@ -223,40 +228,57 @@ export default function BookAppointment() {
   };
 
   const handleConfirmAppointment = async () => {
-    if (!selectedDoctor || !selectedDate || !selectedTime || !user) {
-      setError('Falta información para crear la cita');
-      return;
-    }
+  if (!selectedDoctor || !selectedService || !selectedDate || !selectedTime || !user) {
+    setError('Falta información para crear la cita');
+    return;
+  }
 
-    try {
-      setIsLoading(true);
-      setError(null);
+  try {
+    setIsLoading(true);
+    setError(null);
 
-      // Obtener el patientId desde el usuario
-      const patient = await import('../../../api/services/patients.service')
-        .then(module => module.patientsService.getByUserId(user.id));
+    // Obtener el patientId desde el usuario
+    const patient = await import('../../../api/services/patients.service')
+      .then(module => module.patientsService.getByUserId(user.id));
 
-      const appointmentData = {
-        patientId: patient.id,
-        doctorId: selectedDoctor.id,
-        serviceId: selectedService?.id,
-        appointmentDate: selectedDate.toISOString().split('T')[0],
-        appointmentTime: selectedTime,
-        duration: selectedService?.duration || 30,
-        reasonForVisit,
-        notes: notes || undefined,
-      };
+    // Asegurar formato HH:MM (sin segundos)
+    const timeFormatted = selectedTime.length === 5 
+      ? selectedTime 
+      : selectedTime.substring(0, 5);
 
-      const appointment = await appointmentsService.create(appointmentData);
-      setAppointmentId(appointment.id);
-      setCurrentStep('success');
-    } catch (err: any) {
-      console.error('Error creating appointment:', err);
-      setError(err.message || 'Error al crear la cita');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const appointmentData = {
+      patientId: patient.id,
+      doctorId: selectedDoctor.id,
+      serviceId: selectedService.id,
+      appointmentDate: selectedDate.toISOString().split('T')[0],
+      appointmentTime: timeFormatted, // HH:MM format
+      duration: selectedService.duration,
+      reasonForVisit: reasonForVisit, // Cambiar de 'reason' a 'reasonForVisit'
+      ...(notes && { notes }), // Solo incluir si tiene valor
+    };
+
+    console.log('Appointment data:', appointmentData); // Para debug
+
+    const appointment = await appointmentsService.create(appointmentData);
+    setAppointmentId(appointment.id);
+    setCurrentStep('success');
+  } catch (err: any) {
+    console.error('Error creating appointment:', err);
+    console.error('Error response:', err.response?.data);
+    
+    // Mostrar mensaje de error específico
+    const errorMessage = err.response?.data?.message 
+      || err.response?.data?.error
+      || (Array.isArray(err.response?.data?.message) 
+          ? err.response.data.message.join(', ')
+          : err.message)
+      || 'Error al crear la cita';
+    
+    setError(errorMessage);
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   const handleGoBack = () => {
     const steps: BookingStep[] = [
@@ -471,8 +493,8 @@ export default function BookAppointment() {
               selectedDate={selectedDate}
               selectedTime={selectedTime}
               duration={selectedService?.duration || 30}
-              doctor={selectedDoctor}
-              service={selectedService}
+              doctor={selectedDoctor || undefined}
+              service={selectedService || undefined}
               reasonForVisit={reasonForVisit}
             />
 
@@ -524,8 +546,8 @@ export default function BookAppointment() {
                   selectedDate={selectedDate}
                   selectedTime={selectedTime}
                   duration={selectedService?.duration || 30}
-                  doctor={selectedDoctor}
-                  service={selectedService}
+                  doctor={selectedDoctor || undefined}
+                  service={selectedService || undefined}
                   reasonForVisit={reasonForVisit}
                 />
               </div>

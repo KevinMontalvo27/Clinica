@@ -1,4 +1,3 @@
-// src/features/doctor/components/AppointmentCalendar.tsx
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
 import { Card, Badge } from '../../../components/common';

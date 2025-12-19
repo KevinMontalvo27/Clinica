@@ -1,4 +1,3 @@
-// src/features/doctor/components/DiagnosisForm.tsx
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { object, string } from 'yup';
 import { ClipboardList, AlertTriangle, FileText, AlertCircle } from 'lucide-react';

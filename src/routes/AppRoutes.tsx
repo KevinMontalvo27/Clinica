@@ -1,4 +1,3 @@
-// src/routes/AppRoutes.tsx
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import PrivateRoute from './PrivateRoute';
@@ -13,6 +12,7 @@ import {
   PatientDashboard,
   SearchDoctors,
   PatientDoctorProfile,
+  BookAppointment,
 } from '../features/patient/pages/';
 import {
   DoctorDashboard,
@@ -23,6 +23,7 @@ import {
   DoctorProfile,
   RegisterConsultation,
 } from '../features/doctor/pages';
+import DoctorPatientHistory from '../features/doctor/pages/DoctorPatientHistory';
 
 
 export default function AppRoutes() {
@@ -79,6 +80,10 @@ export default function AppRoutes() {
                   <Route path="services" element={<MyServices />} />
                   <Route path="profile" element={<DoctorProfile />} />
                   <Route path="consultation/register" element={<RegisterConsultation />} />
+                  <Route 
+                    path="patients/:patientId/medical-history" 
+                    element={<DoctorPatientHistory />} 
+                  />
                   {/* Agregar más rutas de doctor aquí */}
                 </Routes>
               </RoleBasedRoute>
@@ -96,6 +101,7 @@ export default function AppRoutes() {
                   <Route path="dashboard" element={<PatientDashboard />} />
                   <Route path="/search-doctors" element={<SearchDoctors />} />
                   <Route path="/doctor/:id" element={<PatientDoctorProfile />} />
+                  <Route path="/book-appointment" element={<BookAppointment />} />
                 </Routes>
               </RoleBasedRoute>
             </PrivateRoute>

@@ -22,3 +22,5 @@ export * from './medical-services.service';
 // Medical Records Services
 export * from './medical-records.service';
 export * from './consultation.service';
+
+export * from './medical-history.service';

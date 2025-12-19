@@ -67,4 +67,15 @@ export const ENDPOINTS = {
     AVAILABLE: '/specialties/available/list',
     POPULAR: '/specialties/popular/list',
   },
+
+  MEDICAL_HISTORY: {
+    BASE: '/medical-history',
+    BY_ID: (id: string) => `/medical-history/${id}`,
+    BY_PATIENT: (patientId: string) => `/medical-history/patient/${patientId}`,
+    GENERATE: (patientId: string) => `/medical-history/patient/${patientId}/generate`,
+    PDF: (historyId: string) => `/medical-history/${historyId}/pdf`,
+    PREVIEW: (historyId: string) => `/medical-history/${historyId}/preview`,
+    DELETE: (historyId: string) => `/medical-history/${historyId}`,
+    STATS: (patientId: string) => `/medical-history/patient/${patientId}/stats`,
+  },
 } as const;

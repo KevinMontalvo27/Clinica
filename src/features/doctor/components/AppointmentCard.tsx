@@ -1,4 +1,3 @@
-// src/features/doctor/components/AppointmentCard.tsx
 import { Badge, Button, Card } from '../../../components/common';
 
 export type AppointmentStatus = 

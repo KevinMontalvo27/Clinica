@@ -166,10 +166,7 @@ export default function LoginForm() {
                     </p>
                 </div>
                 <div className="space-y-2">
-                    <div className="text-xs">
-                    <span className="font-semibold text-primary">Admin:</span>
-                    <p className="text-base-content/70 ml-2">admin@clinica.com / Admin123!</p>
-                    </div>
+
                     <div className="text-xs">
                     <span className="font-semibold text-secondary">Doctor:</span>
                     <p className="text-base-content/70 ml-2">garcia.cardio@clinica.com / Doctor123!</p>
